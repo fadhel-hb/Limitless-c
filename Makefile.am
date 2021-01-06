@@ -1,30 +1,18 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src po
+INCLUDES = \
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
+	@PACKAGE_CFLAGS@
 
-EXTRA_DIST = \
-	autogen.sh \
-	projet1.glade \
-	projet1.gladep
+bin_PROGRAMS = equip
 
-install-data-local:
-	@$(NORMAL_INSTALL)
-	if test -d $(srcdir)/pixmaps; then \
-	  $(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/pixmaps; \
-	  for pixmap in $(srcdir)/pixmaps/*; do \
-	    if test -f $$pixmap; then \
-	      $(INSTALL_DATA) $$pixmap $(DESTDIR)$(pkgdatadir)/pixmaps; \
-	    fi \
-	  done \
-	fi
+equip_SOURCES = \
+	main.c \
+	support.c support.h \
+	interface.c interface.h \
+	troupeaux.c troupeaux.h\
+	callbacks.c callbacks.h
 
-dist-hook:
-	if test -d pixmaps; then \
-	  mkdir $(distdir)/pixmaps; \
-	  for pixmap in pixmaps/*; do \
-	    if test -f $$pixmap; then \
-	      cp -p $$pixmap $(distdir)/pixmaps; \
-	    fi \
-	  done \
-	fi
+equip_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
