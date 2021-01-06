@@ -7,7 +7,7 @@
 #include "callbacks.h"
 #include "interface.h"
 #include "support.h"
-#include "troupeaux.h"
+#include "equipement.h"
 
 
 void
@@ -15,7 +15,7 @@ on_ajouter_clicked                     (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
 	int a;
-	troupeaux t;
+	equipement e;
 	GtkWidget *input1, *input2,*input3,*input4,*input5;
         GtkWidget *output,*output1;
 	input1=lookup_widget(objet_graphique,"type");
@@ -26,20 +26,20 @@ on_ajouter_clicked                     (GtkWidget       *objet_graphique,
 	output1=lookup_widget(objet_graphique,"label29");
 	
 
-	strcpy(t.id,gtk_entry_get_text(GTK_ENTRY(input1)));
-	strcpy(t.race,gtk_entry_get_text(GTK_ENTRY(input2)));
-	strcpy(t.poids,gtk_entry_get_text(GTK_ENTRY(input3)));
-	strcpy(t.sexe,gtk_entry_get_text(GTK_ENTRY(input4)));
-	strcpy(t.date,gtk_entry_get_text(GTK_ENTRY(input5)));
+	strcpy(e.type,gtk_entry_get_text(GTK_ENTRY(input1)));
+	strcpy(e.marque,gtk_entry_get_text(GTK_ENTRY(input2)));
+	strcpy(e.puissance,gtk_entry_get_text(GTK_ENTRY(input3)));
+	strcpy(e.annee,gtk_entry_get_text(GTK_ENTRY(input4)));
+	strcpy(e.matricule,gtk_entry_get_text(GTK_ENTRY(input5)));
 
-       if ((strlen(t.id)==0)||(strlen(t.race)==0)||(strlen(t.poids)==0)||(strlen(t.sexe)==0) || (strlen(t.date)==0))
+       if ((strlen(e.type)==0)||(strlen(e.marque)==0)||(strlen(e.puissance)==0)||(strlen(e.annee)==0) || (strlen(e.matricule)==0))
 {
 
        gtk_label_set_text(GTK_LABEL(output1),"veuilez remplir toutes les cases");
 }
 else
 {
-        a=ajouter_troupeaux(t);
+        a=ajouter_equipement(e);
         if (a==0){
        
         gtk_label_set_text(GTK_LABEL(output1),"ajout avec succés");
@@ -116,22 +116,27 @@ void
 on_supprimer_clicked                   (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
+	char type[30];
+	char marque[30];
+	char puissance[30];
+	char annee[30];
+	char matricule[30];
       
-   troupeaux t;
+   
    GtkWidget *input;
    GtkWidget *output;
    input=lookup_widget(objet_graphique,"matricule_supprimer");
-   strcpy(t.id,gtk_entry_get_text(GTK_ENTRY(input)));
-   output=lookup_widget(objet_graphique,"label25");
+   strcpy(matricule,gtk_entry_get_text(GTK_ENTRY(input)));
+   output=lookup_widget(objet_graphique,"label30");
 
- if ((strlen(t.id)==0))
+ if ((strlen(matricule)==0))
 {
        gtk_label_set_text(GTK_LABEL(output),"veuilez remplir la case");
 }
 
 else
 {
-    supprimer_troupeaux(t.id) ;
+    supprimer_equipement(matricule) ;
   gtk_label_set_text(GTK_LABEL(output),"membre supprimé"); 
 }
 }
@@ -146,7 +151,7 @@ on_Affich_gp_clicked                   (GtkWidget       *objet_graphique,
         window1=lookup_widget(objet_graphique,"fenetre_afficher");
         treeview=lookup_widget(objet_graphique,"treeview1");
         
-        afficher_troupeaux(treeview);
+        afficher_equipement(treeview);
 }
 
 
@@ -206,7 +211,7 @@ void
 on_ok_clicked                          (GtkWidget       *objet_graphique,
                                         gpointer         user_data)
 {
-	troupeaux t; 
+	equipement e; 
         GtkWidget *input1, *input2,*input3,*input4,*input5;
         GtkWidget *output;
         
@@ -217,16 +222,16 @@ on_ok_clicked                          (GtkWidget       *objet_graphique,
 	input5=lookup_widget(objet_graphique,"modifier_matri");
 	 
         
-	strcpy(t.id,gtk_entry_get_text(GTK_ENTRY(input1)));
-	strcpy(t.race,gtk_entry_get_text(GTK_ENTRY(input2)));
-	strcpy(t.poids,gtk_entry_get_text(GTK_ENTRY(input3)));
-	strcpy(t.sexe,gtk_entry_get_text(GTK_ENTRY(input4)));
-	strcpy(t.date,gtk_entry_get_text(GTK_ENTRY(input5)));
-        modifier_troupeaux (t);
+        strcpy(e.type,gtk_entry_get_text(GTK_ENTRY(input1)));
+        strcpy(e.marque,gtk_entry_get_text(GTK_ENTRY(input2)));
+        strcpy(e.puissance,gtk_entry_get_text(GTK_ENTRY(input3)));
+        strcpy(e.annee,gtk_entry_get_text(GTK_ENTRY(input4)));
+	strcpy(e.matricule,gtk_entry_get_text(GTK_ENTRY(input5)));
+        modifier_equipement (e);
         output=lookup_widget(objet_graphique,"label31");
     
     
-         if ((strlen(t.id)==0)||(strlen(t.race)==0)||(strlen(t.poids)==0)||(strlen(t.sexe)==0) || (strlen(t.date)==0))
+         if ((strlen(e.matricule)==0)||(strlen(e.type)==0)||(strlen(e.marque)==0)||(strlen(e.puissance)==0) || (strlen(e.annee)==0))
         
 {
        gtk_label_set_text(GTK_LABEL(output),"veuilez remplir toutes les cases");
